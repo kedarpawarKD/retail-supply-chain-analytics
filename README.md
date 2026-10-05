@@ -49,48 +49,6 @@ Rather than creating dashboards directly from raw data, the project builds the *
 
 ---
 
-# 🏗️ Solution Architecture
-
-```text
-                         RAW SOURCE DATA
-                               │
-                               ▼
-                     ┌──────────────────┐
-                     │  BRONZE LAYER    │
-                     │                  │
-                     │   Raw Data       │
-                     └────────┬─────────┘
-                              │
-                              ▼
-                     ┌──────────────────┐
-                     │  SILVER LAYER    │
-                     │                  │
-                     │ Cleaned          │
-                     │ Standardized     │
-                     │ Validated        │
-                     │ Deduplicated     │
-                     └────────┬─────────┘
-                              │
-                              ▼
-                     ┌──────────────────┐
-                     │   GOLD LAYER     │
-                     │                  │
-                     │   Star Schema    │
-                     │ Business Ready   │
-                     └────────┬─────────┘
-                              │
-                              ▼
-                    gold.vw_dashboard
-                         /          \
-                        /            \
-                       ▼              ▼
-                  POWER BI          EXCEL
-                       │
-                       ▼
-               BUSINESS INSIGHTS
-```
-
----
 
 # 📐 Project Documentation
 
