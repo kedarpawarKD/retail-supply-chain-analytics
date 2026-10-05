@@ -1,132 +1,177 @@
-# Retail Supply Chain Analytics
+# 📦 Retail Supply Chain Analytics
 
-An end-to-end **Retail Supply Chain Analytics** project built using **SQL Server, Power BI, and Excel**.
+### End-to-End Data Analytics & Data Warehouse Project using SQL Server, Power BI & Excel
 
-The project transforms raw retail order data into a structured analytical data warehouse using a **Bronze → Silver → Gold architecture**, followed by business-ready reporting for analyzing sales, profitability, customers, products, and supply chain operations.
+An end-to-end **Retail Supply Chain Analytics** project that transforms raw transactional data into a structured **SQL Server data warehouse**, business-ready analytical datasets, and interactive **Power BI / Excel dashboards**.
+
+The project covers the complete analytics lifecycle:
+
+**Raw Data → ETL → Data Warehouse → Star Schema → SQL Analytics → Power BI & Excel → Business Insights**
 
 ---
 
 ## 📌 Project Overview
 
-Retail businesses generate large volumes of transactional data across customers, products, orders, locations, sales, and logistics operations.
+Retail businesses generate large volumes of transactional data across customers, products, orders, sales, locations, and logistics operations.
 
-The objective of this project is to build an end-to-end analytics solution that transforms raw operational data into reliable, business-ready information that can support decision-making across:
+The objective of this project is to build a complete analytical solution that transforms raw operational data into reliable, business-ready information for decision-making.
 
-- Sales & profitability
-- Customer performance
-- Product performance
-- Inventory-related analysis
-- Order fulfillment
-- Shipping performance
-- Delivery delays
-- Regional and market performance
+The project focuses on:
 
-The project combines **data engineering, SQL analytics, dimensional modeling, and business intelligence** into a single workflow.
+- 📈 Sales & profitability
+- 👥 Customer performance
+- 📦 Product performance
+- 🚚 Order fulfillment
+- 🚛 Shipping & delivery performance
+- 🌎 Regional & market analysis
+- ⏱️ Delivery delays
+- 💰 Discount & profitability analysis
+
+Rather than creating dashboards directly from raw data, the project builds the **data foundation first** through data cleaning, ETL, dimensional modeling, and a business-ready reporting layer.
 
 ---
 
-## 🎯 Project Objectives
-
-The main objectives of this project are to:
+# 🎯 Project Objectives
 
 - Build a structured SQL Server data warehouse
-- Implement a **Bronze, Silver, and Gold** data architecture
+- Implement a **Bronze → Silver → Gold** architecture
 - Clean, standardize, validate, and deduplicate raw data
+- Separate operational entities into structured tables
 - Design a **star schema** for analytical reporting
-- Create reusable business-ready SQL views
+- Create reusable stored procedures for ETL
+- Create a business-ready SQL reporting view
 - Analyze sales and profitability
-- Analyze customer and product performance
-- Evaluate shipping and delivery performance
+- Analyze customers and products
+- Evaluate supply chain and logistics performance
 - Build interactive Power BI dashboards
 - Create supporting Excel analysis
-- Translate operational data into actionable business insights
+- Translate operational data into business insights
 
 ---
 
 # 🏗️ Solution Architecture
 
 ```text
-                    Raw CSV Dataset
-                          │
-                          ▼
-                  ┌───────────────┐
-                  │  Bronze Layer │
-                  │  Raw Data     │
-                  └───────┬───────┘
-                          │
-                     Data Cleaning
-                     & Transformation
-                          │
-                          ▼
-                  ┌───────────────┐
-                  │  Silver Layer │
-                  │ Cleaned Data  │
-                  └───────┬───────┘
-                          │
-                    Dimensional
-                      Modeling
-                          │
-                          ▼
-                  ┌───────────────┐
-                  │   Gold Layer  │
-                  │ Star Schema   │
-                  └───────┬───────┘
-                          │
-                          ▼
-                Business-Ready View
-                  gold.vw_dashboard
-                          │
-                 ┌────────┴────────┐
-                 ▼                 ▼
-             Power BI            Excel
-                 │
-                 ▼
-        Business & Supply Chain
-             Insights
+                         RAW SOURCE DATA
+                               │
+                               ▼
+                     ┌──────────────────┐
+                     │  BRONZE LAYER    │
+                     │                  │
+                     │   Raw Data       │
+                     └────────┬─────────┘
+                              │
+                              ▼
+                     ┌──────────────────┐
+                     │  SILVER LAYER    │
+                     │                  │
+                     │ Cleaned          │
+                     │ Standardized     │
+                     │ Validated        │
+                     │ Deduplicated     │
+                     └────────┬─────────┘
+                              │
+                              ▼
+                     ┌──────────────────┐
+                     │   GOLD LAYER     │
+                     │                  │
+                     │   Star Schema    │
+                     │ Business Ready   │
+                     └────────┬─────────┘
+                              │
+                              ▼
+                    gold.vw_dashboard
+                         /          \
+                        /            \
+                       ▼              ▼
+                  POWER BI          EXCEL
+                       │
+                       ▼
+               BUSINESS INSIGHTS
 ```
+
+---
+
+# 📐 Project Documentation
+
+The repository includes visual documentation of the complete data engineering and analytics workflow.
+
+## 1. Data Architecture
+
+The architecture diagram shows how raw source data moves through the Bronze, Silver, and Gold layers before reaching the reporting layer.
+
+![Data Architecture](docs/data_architecture.png)
+
+**Editable file:**  
+[Data Architecture – Draw.io](docs/data_architecture.drawio)
+
+---
+
+## 2. Data Lineage
+
+The data lineage diagram documents the flow of data from the original source through transformation layers to the final analytical outputs.
+
+![Data Lineage](docs/data_lineage.png)
+
+**Editable file:**  
+[Data Lineage – Draw.io](docs/data_lineage.drawio)
+
+---
+
+## 3. Star Schema / Data Model
+
+The Gold layer uses a star schema designed for analytical workloads and Power BI reporting.
+
+![Star Schema Data Model](docs/data_model.png)
+
+**Editable file:**  
+[Data Model – Draw.io](docs/data_model.drawio)
 
 ---
 
 # 🗄️ Data Warehouse Architecture
 
-The data warehouse follows a three-layer architecture.
+The data warehouse consists of three logical layers.
 
-### 🥉 Bronze Layer
+## 🥉 Bronze Layer — Raw Data
 
-The Bronze layer stores the raw data as received from the source CSV file.
+The Bronze layer acts as the landing layer for the original source data.
 
-**Purpose:**
+### Purpose
 
 - Preserve raw source data
-- Provide a reliable landing layer
-- Separate source data from transformation logic
+- Maintain source-level traceability
+- Separate raw data from transformation logic
+- Provide a reliable starting point for ETL
 
-Main table:
+### Main Table
 
 ```text
 bronze.order_fulfillment_raw
 ```
 
+Raw data is loaded using SQL Server `BULK INSERT`.
+
 ---
 
-### 🥈 Silver Layer
+## 🥈 Silver Layer — Cleaned & Standardized Data
 
-The Silver layer contains cleaned and structured data.
+The Silver layer transforms raw data into clean, validated, structured entities.
 
-Transformations include:
+### Key transformations
 
-- Trimming unnecessary whitespace
-- Standardizing text values
+- Trimming whitespace
+- Handling blank values
+- Standardizing text
 - Converting data types
-- Handling null and blank values
 - Validating numeric values
-- Validating geographical coordinates
+- Validating geographic coordinates
 - Standardizing customer segments
 - Standardizing order and payment fields
 - Deduplicating records
 - Separating entities into normalized tables
 
-Main Silver tables:
+### Silver Tables
 
 ```text
 silver.customers
@@ -139,9 +184,9 @@ silver.order_items
 
 ---
 
-### 🥇 Gold Layer
+## 🥇 Gold Layer — Business-Ready Data
 
-The Gold layer contains business-ready analytical tables organized into a star schema.
+The Gold layer contains dimensional models optimized for analytics.
 
 ### Dimension Tables
 
@@ -158,7 +203,7 @@ gold.dim_date
 gold.fact_order_items
 ```
 
-The Gold layer uses **surrogate keys** to support analytical relationships and dimensional modeling.
+The Gold layer uses **surrogate keys** to establish relationships between fact and dimension tables.
 
 ---
 
@@ -170,91 +215,146 @@ The central fact table is:
 gold.fact_order_items
 ```
 
-It connects to the following dimensions:
+It connects to four dimensions:
 
 ```text
-                 dim_customers
-                       │
-                       │
-dim_date ───── fact_order_items ───── dim_products
-                       │
-                       │
-                dim_order_locations
+                         dim_customers
+                              │
+                              │
+                              ▼
+dim_date ───────────► fact_order_items ◄────────── dim_products
+                              │
+                              │
+                              ▼
+                    dim_order_locations
 ```
 
-### Fact Table
+## Fact Table
 
-`fact_order_items` contains analytical measures and transactional information such as:
+`gold.fact_order_items` contains transactional and analytical measures including:
 
 - Quantity
 - Sales
 - Net Sales
 - Profit
 - Profit Margin
-- Discount
 - Product Cost
+- Discount
 - Shipping Days
 - Shipping Delay
 - Late Delivery Risk
 
-### Dimensions
+## Dimension Tables
 
-**Customer Dimension**
+### 👥 Customer Dimension
 
-Contains customer identity, segment, geographic and location attributes.
+Contains customer-related attributes such as:
 
-**Product Dimension**
+- Customer identity
+- Customer segment
+- Geographic information
+- Location attributes
 
-Contains product, category, department, price and status information.
+### 📦 Product Dimension
 
-**Order Location Dimension**
+Contains:
 
-Contains market, region, country, state, city and postal information.
+- Product
+- Category
+- Department
+- Product price
+- Product status
 
-**Date Dimension**
+### 🌎 Order Location Dimension
 
-Contains calendar, month, quarter, year, week and weekend attributes.
+Contains:
+
+- Market
+- Region
+- Country
+- State
+- City
+- Postal information
+
+### 📅 Date Dimension
+
+Contains:
+
+- Date
+- Day
+- Month
+- Quarter
+- Year
+- Week
+- Weekend indicators
 
 ---
 
-# 🔄 ETL Process
+# 🔄 ETL Pipeline
 
-The project implements an end-to-end ETL workflow.
+The project follows an end-to-end ETL workflow.
 
-### 1. Extract
+## 1. Extract
 
-Raw data is loaded from the source CSV file into the Bronze layer using SQL Server `BULK INSERT`.
+Raw data is loaded from the source CSV dataset into the Bronze layer using:
 
-### 2. Transform
+```sql
+BULK INSERT
+```
 
-The Silver layer performs data preparation including:
+---
 
-- Cleaning
-- Standardization
-- Validation
-- Deduplication
-- Type conversion
-- Entity separation
+## 2. Transform
 
-### 3. Load
+The Silver layer performs:
 
-Cleaned data is loaded into dimensional tables in the Gold layer.
+```text
+Cleaning
+   ↓
+Standardization
+   ↓
+Validation
+   ↓
+Deduplication
+   ↓
+Data Type Conversion
+   ↓
+Entity Separation
+```
 
-### 4. Reporting
+---
 
-A business-ready SQL view is created:
+## 3. Load
+
+Cleaned Silver data is transformed into the Gold dimensional model.
+
+```text
+Silver Tables
+      ↓
+Dimensions
+      +
+Fact Table
+      ↓
+Gold Layer
+```
+
+---
+
+## 4. Reporting Layer
+
+A business-ready SQL view combines the Gold fact and dimension tables:
 
 ```text
 gold.vw_dashboard
 ```
 
-This view combines the fact and dimension tables into a reporting-friendly dataset used by BI tools.
+This provides a simplified analytical dataset for downstream reporting.
 
 ---
 
 # 🧹 Data Quality & Transformation
 
-Several data quality techniques were implemented during the transformation process.
+Several data quality techniques are implemented throughout the ETL process.
 
 ### Text Cleaning
 
@@ -269,17 +369,18 @@ UPPER()
 
 Examples include:
 
-- Validating latitude and longitude ranges
-- Checking non-negative sales and prices
+- Validating latitude and longitude
+- Validating sales and product prices
 - Validating discount percentages
-- Validating shipping-day values
+- Validating shipping days
 - Validating delivery-risk indicators
+- Handling invalid or missing values
 
 ### Deduplication
 
-`ROW_NUMBER()` is used to identify and remove duplicate records from source data.
+`ROW_NUMBER()` is used to identify duplicate records during transformation.
 
-### Date Conversion
+### Date Handling
 
 Raw date fields are converted into appropriate SQL Server date/time data types.
 
@@ -287,11 +388,11 @@ Raw date fields are converted into appropriate SQL Server date/time data types.
 
 # 📊 Power BI Dashboard
 
-The Power BI report contains four analytical pages designed around different business questions.
+The Power BI report contains **four analytical pages**, each designed around a specific business area.
 
-## 1. Executive Overview
+---
 
-Provides a high-level view of business and operational performance.
+## 1️⃣ Executive Overview
 
 ### KPIs
 
@@ -313,9 +414,9 @@ Provides a high-level view of business and operational performance.
 
 ---
 
-## 2. Sales & Profitability
+## 2️⃣ Sales & Profitability Deep Dive
 
-Focuses on understanding revenue and profitability drivers.
+Designed to understand the major drivers of revenue and profitability.
 
 ### KPIs
 
@@ -327,7 +428,7 @@ Focuses on understanding revenue and profitability drivers.
 
 ### Analysis
 
-- Top Products by Profit
+- Top 5 Products by Profit
 - Profit by Region
 - Discount vs Profitability
 - Department Performance
@@ -337,9 +438,9 @@ Focuses on understanding revenue and profitability drivers.
 
 ---
 
-## 3. Customer & Product Analysis
+## 3️⃣ Customer & Product Analysis
 
-Analyzes customer behavior and product performance.
+Designed to understand customer value and product performance.
 
 ### KPIs
 
@@ -352,18 +453,18 @@ Analyzes customer behavior and product performance.
 ### Analysis
 
 - Product Performance
-- Top Customers by Net Sales
+- Top 5 Customers by Net Sales
 - Customer Segment Performance
 - Average Order Value vs Profitability
-- Product Category Sales
+- Category Sales
 
 ![Customer & Product Analysis](powerbi/screenshots/customer_product.png)
 
 ---
 
-## 4. Supply Chain & Logistics Operations
+## 4️⃣ Supply Chain & Logistics Operations
 
-Focuses on fulfillment and delivery performance.
+Designed specifically around fulfillment and logistics performance.
 
 ### KPIs
 
@@ -386,22 +487,28 @@ Focuses on fulfillment and delivery performance.
 
 # 📈 Excel Analysis
 
-Excel was also used to provide supporting business analysis and dashboarding.
+Excel was used as an additional analytical and reporting layer.
 
-The Excel analysis includes views covering:
+The analysis covers:
 
 - Executive performance
 - Customer analysis
 - Product analysis
 - Logistics performance
 
-### Excel Screenshots
+### Executive Dashboard
 
 ![Executive Dashboard](excel/screenshots/executive_dashboard.png)
 
+### Customer Analysis
+
 ![Customer Analysis](excel/screenshots/customer_analysis.png)
 
+### Product Analysis
+
 ![Product Analysis](excel/screenshots/product_analysis.png)
+
+### Logistics Performance
 
 ![Logistics Performance](excel/screenshots/logistics_performance.png)
 
@@ -409,18 +516,18 @@ The Excel analysis includes views covering:
 
 # 💼 Business Questions
 
-The project was designed to answer questions such as:
+The project is designed to answer practical business questions.
 
-### Sales & Profitability
+## 📈 Sales & Profitability
 
 - How are sales and profit changing over time?
-- Which regions generate the most profit?
+- Which regions generate the highest profit?
 - Which departments and categories perform best?
 - Which products generate the highest profit?
 - How does discounting affect profitability?
-- Which areas have negative or weak profitability?
+- Which areas have weak or negative profitability?
 
-### Customer
+## 👥 Customer
 
 - Which customer segments generate the most sales?
 - Who are the highest-value customers?
@@ -428,14 +535,14 @@ The project was designed to answer questions such as:
 - What percentage of customers are repeat customers?
 - Which customers contribute the most profit?
 
-### Product
+## 📦 Product
 
 - Which products generate the highest sales?
 - Which products are most profitable?
 - Which categories and departments perform best?
-- Are some products generating weak or negative profitability?
+- Which products have weak or negative profitability?
 
-### Supply Chain & Logistics
+## 🚚 Supply Chain & Logistics
 
 - Which shipping modes perform best?
 - Where are delivery delays concentrated?
@@ -450,14 +557,14 @@ The project was designed to answer questions such as:
 
 | Technology | Purpose |
 |---|---|
-| **SQL Server** | Data warehouse and ETL |
-| **T-SQL** | Data transformation and analysis |
+| **SQL Server** | Data warehouse & ETL |
+| **T-SQL** | Data transformation & analysis |
 | **Power BI** | Interactive dashboards |
-| **DAX** | Analytical measures |
+| **DAX** | Analytical calculations |
 | **Power Query** | Data preparation |
-| **Excel** | Supporting analysis and dashboards |
-| **Draw.io** | Architecture and data modeling diagrams |
-| **GitHub** | Version control and project documentation |
+| **Excel** | Supporting analysis |
+| **Draw.io** | Architecture & data modeling |
+| **GitHub** | Version control & documentation |
 
 ---
 
@@ -500,7 +607,6 @@ retail-supply-chain-analytics/
 │       └── supply_chain.png
 │
 └── excel/
-    ├── RetailSCM_Excel.xlsx
     └── screenshots/
         ├── executive_dashboard.png
         ├── customer_analysis.png
@@ -537,7 +643,7 @@ This creates:
 RetailSupplyChainDW
 ```
 
-with the following schemas:
+and the following schemas:
 
 ```text
 bronze
@@ -545,7 +651,7 @@ silver
 gold
 ```
 
-> ⚠️ **Warning:** The initialization script drops and recreates the database if it already exists. Do not run it against a database containing important data.
+> ⚠️ **Warning:** The initialization script drops and recreates `RetailSupplyChainDW`. Do not run it against a database containing important data.
 
 ---
 
@@ -559,7 +665,7 @@ sql/bronze/ddl_bronze.sql
 
 ---
 
-## Step 3 — Configure the Source CSV Path
+## Step 3 — Configure the CSV Path
 
 Open:
 
@@ -567,17 +673,19 @@ Open:
 sql/bronze/proc_load_bronze.sql
 ```
 
-Update the CSV file path in the `BULK INSERT` statement:
+Update the path used by `BULK INSERT`.
+
+Example:
 
 ```sql
 FROM 'C:\RSCDW Dataset\DataCoSupplyChainDataset.csv'
 ```
 
-Replace it with the location of your local dataset.
+Replace this with the location of your local CSV file.
 
 ---
 
-## Step 4 — Load the Bronze Layer
+## Step 4 — Load Bronze
 
 Execute:
 
@@ -587,7 +695,7 @@ EXEC bronze.load_bronze;
 
 ---
 
-## Step 5 — Create Silver Tables
+## Step 5 — Create and Load Silver
 
 Run:
 
@@ -603,7 +711,7 @@ EXEC silver.load_silver;
 
 ---
 
-## Step 6 — Create and Load Gold Layer
+## Step 6 — Create and Load Gold
 
 Run:
 
@@ -611,7 +719,7 @@ Run:
 sql/gold/ddl_proc_load_gold.sql
 ```
 
-This creates and loads the Gold dimension and fact tables.
+This creates and loads the Gold dimensions and fact table.
 
 ---
 
@@ -629,25 +737,25 @@ The final reporting view is:
 gold.vw_dashboard
 ```
 
-This view can then be used as the primary reporting source for Power BI and Excel.
+This view can be connected to Power BI or Excel for analysis.
 
 ---
 
 # 🔐 Data Considerations
 
-The Bronze layer retains the raw source structure for traceability.
+The Bronze layer preserves the original source structure for traceability.
 
-Sensitive source attributes that are not required for analytical reporting are not carried into the downstream Silver and Gold analytical layers.
+Data is then cleaned and transformed through the Silver layer before being exposed through the Gold analytical model.
 
-The Gold layer is designed specifically for business intelligence and reporting purposes.
+Source attributes that are not required for downstream analytical reporting are not carried into the analytical model.
+
+The Gold layer is designed specifically for **business intelligence and reporting**.
 
 ---
 
 # 🧠 Skills Demonstrated
 
-This project demonstrates practical experience in:
-
-### SQL & Data Engineering
+## SQL & Data Engineering
 
 - SQL Server
 - T-SQL
@@ -661,7 +769,7 @@ This project demonstrates practical experience in:
 - Deduplication
 - ETL Pipelines
 
-### Data Warehousing
+## Data Warehousing
 
 - Bronze / Silver / Gold architecture
 - Dimensional modeling
@@ -669,20 +777,20 @@ This project demonstrates practical experience in:
 - Fact tables
 - Dimension tables
 - Surrogate keys
-- Date dimensions
-- Business-ready reporting views
+- Date dimension
+- Business-ready SQL views
 
-### Business Intelligence
+## Business Intelligence
 
 - Power BI
 - Power Query
 - DAX
 - Data Modeling
-- Interactive Dashboards
 - KPI Design
-- Business-oriented Data Visualization
+- Interactive Dashboards
+- Business-oriented Visualization
 
-### Business & Supply Chain Analytics
+## Supply Chain Analytics
 
 - Sales Analysis
 - Profitability Analysis
@@ -696,27 +804,55 @@ This project demonstrates practical experience in:
 
 ---
 
-# 📌 Key Takeaways
+# 🔎 Project Workflow
 
-This project demonstrates how raw operational data can be transformed into a structured analytical solution:
+The complete project can be summarized as:
 
 ```text
-Raw Data
-   ↓
-Data Cleaning
-   ↓
-Data Warehouse
-   ↓
-Dimensional Model
-   ↓
-Business-Ready Data
-   ↓
-Power BI / Excel
-   ↓
-Business Insights
+                    SOURCE DATA
+                         │
+                         ▼
+                 ┌──────────────┐
+                 │    BRONZE    │
+                 │  Raw Data    │
+                 └──────┬───────┘
+                        │
+                        ▼
+                 ┌──────────────┐
+                 │    SILVER    │
+                 │ Clean &      │
+                 │ Standardize  │
+                 └──────┬───────┘
+                        │
+                        ▼
+                 ┌──────────────┐
+                 │     GOLD     │
+                 │ Star Schema  │
+                 └──────┬───────┘
+                        │
+                        ▼
+               BUSINESS DATASET
+                        │
+                 ┌──────┴──────┐
+                 ▼             ▼
+              POWER BI       EXCEL
+                 │             │
+                 └──────┬──────┘
+                        ▼
+                BUSINESS INSIGHTS
 ```
 
-The focus is not only on building dashboards, but on creating the **data foundation required to make those dashboards reliable and useful for business decision-making.**
+---
+
+# 📌 Key Takeaway
+
+This project demonstrates that effective analytics is not only about creating dashboards.
+
+The complete solution involves:
+
+**Data Engineering → Data Quality → Data Warehousing → Dimensional Modeling → Analytics → Visualization → Business Decision-Making**
+
+The project therefore combines technical data skills with a **business and supply chain perspective** to turn raw operational data into a structured analytical solution.
 
 ---
 
@@ -729,20 +865,23 @@ My current technical focus includes:
 - SQL
 - Power BI
 - Excel
-- Data Modeling
+- Power Query
 - DAX
+- Data Modeling
 - Supply Chain Analytics
 
-I'm interested in opportunities where I can use data to solve business and operational problems.
+I'm interested in **Data Analyst and Business Analyst opportunities** where I can use data to solve business and operational problems.
 
 ---
 
-## 📬 Connect With Me
+## 🔗 Connect
 
-**GitHub:** [github.com/kedarpawarKD](https://github.com/kedarpawarKD)
+**GitHub:**  
+https://github.com/kedarpawarKD
 
-**LinkedIn:** [linkedin.com/in/kedar-pawar](https://www.linkedin.com/)
+**Project Repository:**  
+https://github.com/kedarpawarKD/retail-supply-chain-analytics
 
 ---
 
-⭐ If you found this project useful, feel free to explore the repository and dashboards.
+⭐ **If you found this project useful, feel free to explore the repository and dashboards.**
